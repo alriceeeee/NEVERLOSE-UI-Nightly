@@ -9,7 +9,7 @@
 local NEVERLOSE = loadstring(game:HttpGet("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NEVERLOSE-UI-Nightly/main/source.lua"))()
 
 -- Change Theme --
-NEVERLOSE:Theme("dark") -- [ dark , nightly , original ]
+NEVERLOSE:Theme("dark") -- [ dark , nightly , original (they're all ass)]
 ------------------
 
 local Window = NEVERLOSE:AddWindow("NEVERLOSE","TEXT HERE")
