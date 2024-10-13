@@ -68,22 +68,3 @@ SectionTest:AddButton("Kick",function()
 	--game.Players.LocalPlayer:Kick()
 end)
 ```
-
-# Key System
-
-```lua
-local NEVERLOSE = loadstring(game:HttpGet("https://raw.githubusercontent.com/3345-c-a-t-s-u-s/NEVERLOSE-UI-Nightly/main/source.lua"))()
-
-local function Start(Key)
-	local Window = NEVERLOSE:AddWindow("NEVERLOSE","TEXT HERE")
-end
-
-local KeySystem = NEVERLOSE:KeySystem("Key System","https://discord.gg/bedol-hub",function(key)
-	if key=='1234' then
-		return true
-	end
-	return false
-end)
-
-KeySystem:Callback(Start)
-```
