@@ -2,7 +2,7 @@
 
 	|	NEVERLOSE	UI	|
 	Fuck Synapse X
-		THIS UI MAKE BY CAT_SUS		
+		THIS UI MAKE BY CAT_SUS, remake by alriceee on discord		
 		original Neverlose
 		
 		[https://neverlose.cc/] - csgo cheat
@@ -130,7 +130,7 @@ local NEVERLOSE = {
 	_Name="NEVERLOSE"
 }
 
-print(NEVERLOSE._Name..":",NEVERLOSE._Version..':',[[https://neverlose.cc/]],": UI BY OWNER BEDOL HUB","__ui")
+print(NEVERLOSE._Name..":",NEVERLOSE._Version..':',[[https://neverlose.cc/]],": UI BY CAT_SUS, remake by alriceee on discord","__ui")
 
 function NEVERLOSE:Theme(name)
 	name = tostring(name or "original"):lower()
@@ -169,6 +169,18 @@ function NEVERLOSE:Theme(name)
 		NEVERLOSE.Themes.StrokeColor = Color3.fromRGB(28, 28, 28)
 		NEVERLOSE.Themes.ButtonBlackgroundColor = Color3.fromRGB(13, 13, 13)
 	end
+
+	if name == "light" then
+        NEVERLOSE.Themes.BlackgroundColor = Color3.fromRGB(240, 240, 240)
+        NEVERLOSE.Themes.BlackColor = Color3.fromRGB(255, 255, 255)
+        NEVERLOSE.Themes.HeaderColor = Color3.fromRGB(230, 230, 230)
+        NEVERLOSE.Themes.TraceColor = Color3.fromRGB(200, 200, 200)
+        NEVERLOSE.Themes.MainColor = Color3.fromRGB(0, 120, 215)
+        NEVERLOSE.Themes.MainColorDrop = Color3.fromRGB(220, 220, 220)
+        NEVERLOSE.Themes.SectionColor = Color3.fromRGB(250, 250, 250)
+        NEVERLOSE.Themes.StrokeColor = Color3.fromRGB(180, 180, 180)
+        NEVERLOSE.Themes.ButtonBlackgroundColor = Color3.fromRGB(245, 245, 245)
+    end
 end
 
 function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
@@ -552,6 +564,41 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 	UserName.TextSize = 14.000
 	UserName.TextWrapped = true
 	UserName.TextXAlignment = Enum.TextXAlignment.Left
+
+	-- Add system clock
+	local SystemClock = Instance.new("TextLabel")
+	SystemClock.Name = "SystemClock"
+	SystemClock.Parent = Frame
+	SystemClock.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	SystemClock.BackgroundTransparency = 1.000
+	SystemClock.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	SystemClock.BorderSizePixel = 0
+	SystemClock.Position = UDim2.new(0.75, 0, 0.025, 0)
+	SystemClock.Size = UDim2.new(0.2, 0, 0.05, 0)
+	SystemClock.ZIndex = 5
+	SystemClock.Font = Enum.Font.SourceSansBold
+	SystemClock.Text = "00:00:00"
+	SystemClock.TextColor3 = Color3.fromRGB(255, 255, 255)
+	SystemClock.TextScaled = true
+	SystemClock.TextSize = 14.000
+	SystemClock.TextWrapped = true
+
+	-- Update clock function
+	local function updateClock()
+		local date = os.date("*t")
+		local hour = string.format("%02d", date.hour)
+		local min = string.format("%02d", date.min)
+		local sec = string.format("%02d", date.sec)
+		SystemClock.Text = hour .. ":" .. min .. ":" .. sec
+	end
+
+	-- Update clock every second
+	spawn(function()
+		while true do
+			updateClock()
+			wait(1)
+		end
+	end)
 
 	function WindowFunctinos:AddTabLabel(Label)
 		local TabTitle = Instance.new("TextLabel")

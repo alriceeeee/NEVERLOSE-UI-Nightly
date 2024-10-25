@@ -1,15 +1,7 @@
-# NEVERLOSE
-## NEVERLOSE UI Library
-![Screenshot 2023-10-10 103415](https://github.com/3345-c-a-t-s-u-s/NEVERLOSE-UI-Nightly/assets/117000269/1f8be350-58e7-409d-8389-d6b1e7da2afe)
-![Screenshot 2023-10-10 103444](https://github.com/3345-c-a-t-s-u-s/NEVERLOSE-UI-Nightly/assets/117000269/3c358aa1-fed3-48dd-abcb-c01030dd9f41)
-![Screenshot 2023-10-10 103513](https://github.com/3345-c-a-t-s-u-s/NEVERLOSE-UI-Nightly/assets/117000269/8d81318b-7cf8-4ad2-8b1b-5517cfdf94ea)
-
-# Example Code
-```lua
 local NEVERLOSE = loadstring(game:HttpGet("https://raw.githubusercontent.com/alriceeeee/NEVERLOSE-UI-Nightly/main/source.lua"))()
 
 -- Change Theme --
-NEVERLOSE:Theme("dark") -- [ dark , nightly , original (they're all ass)]
+NEVERLOSE:Theme("dark") -- [ dark , nightly , original, light]
 ------------------
 
 local Window = NEVERLOSE:AddWindow("NEVERLOSE","TEXT HERE")
@@ -65,6 +57,31 @@ end)
 local SectionTest = MainTab:AddSection('Test',"left")
 
 SectionTest:AddButton("Kick",function()
-	--game.Players.LocalPlayer:Kick()
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+
+local function rejoinGame()
+    local player = Players.LocalPlayer
+    local placeId = game.PlaceId
+    local jobId = game.JobId
+
+    TeleportService:TeleportToPlaceInstance(placeId, jobId, player)
+end
+
+-- Call the function to rejoin immediately
+rejoinGame()
+
+print("Attempting to rejoin the current game...")
 end)
-```
+
+-- New section to demonstrate system clock
+local ClockSection = MainTab:AddSection('System Clock', "right")
+
+ClockSection:AddLabel("The system clock is now visible in the top-right corner of the UI.")
+
+ClockSection:AddButton("Print Current Time", function()
+    local date = os.date("*t")
+    local currentTime = string.format("%02d:%02d:%02d", date.hour, date.min, date.sec)
+    print("Current time: " .. currentTime)
+    Notification:Notify("info", "Current Time", currentTime)
+end)
