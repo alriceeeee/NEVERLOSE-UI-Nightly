@@ -573,7 +573,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 	SystemClock.BackgroundTransparency = 1.000
 	SystemClock.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	SystemClock.BorderSizePixel = 0
-	SystemClock.Position = UDim2.new(0.75, 0, 0.025, 0)
+	SystemClock.Position = UDim2.new(0.75, 0, 0.95, 0)
 	SystemClock.Size = UDim2.new(0.2, 0, 0.05, 0)
 	SystemClock.ZIndex = 5
 	SystemClock.Font = Enum.Font.SourceSansBold

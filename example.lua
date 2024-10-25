@@ -74,14 +74,4 @@ rejoinGame()
 print("Attempting to rejoin the current game...")
 end)
 
--- New section to demonstrate system clock
-local ClockSection = MainTab:AddSection('System Clock', "right")
-
-ClockSection:AddLabel("The system clock is now visible in the top-right corner of the UI.")
-
-ClockSection:AddButton("Print Current Time", function()
-    local date = os.date("*t")
-    local currentTime = string.format("%02d:%02d:%02d", date.hour, date.min, date.sec)
-    print("Current time: " .. currentTime)
-    Notification:Notify("info", "Current Time", currentTime)
-end)
+-- The system clock is now visible in the bottom-right corner of the UI
