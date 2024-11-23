@@ -127,7 +127,8 @@ local NEVERLOSE = {
 		ButtonBlackgroundColor = Color3.fromRGB(26, 26, 26)
 	},
 	_Version="10.C",
-	_Name="NEVERLOSE"
+	_Name="NEVERLOSE",
+	_ActiveInstances = {} -- Add this to track active UI instances
 }
 
 print(NEVERLOSE._Name..":",NEVERLOSE._Version..':',[[https://neverlose.cc/]],": UI BY CAT_SUS, remake by alriceee on discord","__ui")
@@ -184,6 +185,15 @@ function NEVERLOSE:Theme(name)
 end
 
 function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
+	-- Check for existing UI with same name and destroy it
+	for i, instance in ipairs(self._ActiveInstances) do
+		if instance.Name == NameScriptHub then
+			instance.GUI:Destroy()
+			table.remove(self._ActiveInstances, i)
+			break
+		end
+	end
+
 	local WindowFunctinos={}
 	local ToggleUI=false
 	local ooldsize=UICustomSize or UDim2.new(0.200000003, 210, 0.200000003, 175)
@@ -675,7 +685,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 		Image.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Image.BackgroundTransparency = 1.000
 		Image.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		Image.BorderSizePixel = 0
+		Image.BorderSizePixel = 0)
 		Image.Position = UDim2.new(0.0149999997, 0, 0.5, 0)
 		Image.Size = UDim2.new(0.850000024, 0, 0.800000012, 0)
 		Image.SizeConstraint = Enum.SizeConstraint.RelativeYY
@@ -696,7 +706,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 		Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Label.BackgroundTransparency = 1.000
 		Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		Label.BorderSizePixel = 0
+		Label.BorderSizePixel = 0)
 		Label.Position = UDim2.new(0.640507042, 0, 0.500000238, 0)
 		Label.Size = UDim2.new(0.718986034, 0, 0.600000024, 0)
 		Label.ZIndex = 5
@@ -1928,8 +1938,36 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 		end
 	end)
 
+	-- Store the instance information
+	table.insert(self._ActiveInstances, {
+		Name = NameScriptHub,
+		GUI = ScreenGui,
+		Functions = WindowFunctinos
+	})
+
 	return WindowFunctinos
 end
+
+	-- Add cleanup function
+	function NEVERLOSE:Cleanup()
+		for _, instance in ipairs(self._ActiveInstances) do
+			if instance.GUI then
+				instance.GUI:Destroy()
+			end
+		end
+		self._ActiveInstances = {}
+	end
+
+	-- Modify existing destroy functionality
+	function NEVERLOSE:DestroyUI(name)
+		for i, instance in ipairs(self._ActiveInstances) do
+			if instance.Name == name then
+				instance.GUI:Destroy()
+				table.remove(self._ActiveInstances, i)
+				break
+			end
+		end
+	end
 
 function NEVERLOSE:KeySystem(TitleName,LinkKey,callback)
 	local Functions = {}
