@@ -1,4 +1,25 @@
-local NEVERLOSE = loadstring(game:HttpGet("https://raw.githubusercontent.com/alriceeeee/NEVERLOSE-UI-Nightly/main/source.lua"))()
+local function LoadLibrary()
+    local source = game:HttpGet("https://raw.githubusercontent.com/alriceeeee/NEVERLOSE-UI-Nightly/main/source.lua")
+    if not source then
+        warn("Failed to fetch library source")
+        return nil
+    end
+    
+    local fn, loadError = loadstring(source)
+    if not fn then
+        warn("Failed to compile library:", loadError)
+        return nil
+    end
+    
+    return fn()
+end
+
+local success, NEVERLOSE = pcall(LoadLibrary)
+
+if not success or not NEVERLOSE then
+    warn("Failed to load NEVERLOSE UI Library:", NEVERLOSE)
+    return
+end
 
 -- Change Theme --
 NEVERLOSE:Theme("light") -- [ dark , nightly , original, light]

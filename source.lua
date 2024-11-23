@@ -29,7 +29,7 @@ local function cretate_button(asd)
 end
 
 
-local function ConnectButtonEffect(UIFrame:Frame&TextButton&ImageLabel,UIStroke:UIStroke,int)
+local function ConnectButtonEffect(UIFrame: Frame | TextButton | ImageLabel, UIStroke: UIStroke, int: number)
 	if not UIStroke then
 		return
 	end
