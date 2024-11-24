@@ -2239,7 +2239,7 @@ function NEVERLOSE:Notification()
 	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 	UIListLayout.Padding = UDim.new(0, 4)
-	function Notification_:Notify(Type, Head, Body, countdown)
+	function Notification_:Notify(Type,Head,Body,countdown)
 		if (#MainFrame:GetChildren()) > Notification_.MaxNotifications then
 			return false
 		end
@@ -2387,9 +2387,11 @@ function NEVERLOSE:Notification()
 			CloseButton.MouseButton1Click:Connect(end_vu)
 
 			if countdown then
+
 				pcall(function()
 					task.wait(1.3)
-					local tween = TweenService:Create(Countdown,TweenInfo.new(tonumber(countdown) or 3,Enum.EasingStyle.Linear),{Size=UDim2.new(1,0,0.1,0)})
+					local tween = TweenService:Create(Countdown,TweenInfo.new(tonumber(countdown) or 3,Enum.EasingStyle.Linear),{Size=UDim2.new(1,0,0.1,0)
+					})
 
 					tween:Play()
 
