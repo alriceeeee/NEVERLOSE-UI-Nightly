@@ -127,7 +127,8 @@ local NEVERLOSE = {
 		ButtonBlackgroundColor = Color3.fromRGB(26, 26, 26)
 	},
 	_Version="10.C",
-	_Name="NEVERLOSE"
+	_Name="NEVERLOSE",
+	_ActiveWindow = nil -- Add this to track active window
 }
 
 print(NEVERLOSE._Name..":",NEVERLOSE._Version..':',[[https://neverlose.cc/]],": UI BY CAT_SUS, remake by alriceee on discord","__ui")
@@ -184,6 +185,11 @@ function NEVERLOSE:Theme(name)
 end
 
 function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
+	-- Check if there's an existing window and destroy it
+	if NEVERLOSE._ActiveWindow then
+		NEVERLOSE._ActiveWindow:Destroy()
+	end
+	
 	local WindowFunctinos={}
 	local ToggleUI=false
 	local ooldsize=UICustomSize or UDim2.new(0.200000003, 210, 0.200000003, 175)
@@ -1928,6 +1934,9 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 		end
 	end)
 
+	-- Store reference to current window
+	NEVERLOSE._ActiveWindow = ScreenGui
+
 	return WindowFunctinos
 end
 
@@ -2368,5 +2377,20 @@ task.spawn(function()
 		end)
 	end
 end)
+
+-- Add reload function
+function NEVERLOSE:ReloadUI()
+	if NEVERLOSE._ActiveWindow then
+		local oldWindow = NEVERLOSE._ActiveWindow
+		local properties = {
+			NameScriptHub = oldWindow:FindFirstChild("HeadName") and oldWindow.HeadName.Text,
+			Text = oldWindow:FindFirstChild("headd2text") and oldWindow.headd2text.Text,
+			Size = oldWindow:FindFirstChild("Frame") and oldWindow.Frame.Size
+		}
+		
+		-- Recreate window with same properties
+		NEVERLOSE:AddWindow(properties.NameScriptHub, properties.Text, properties.Size)
+	end
+end
 
 return NEVERLOSE
