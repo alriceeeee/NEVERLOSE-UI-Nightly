@@ -1,7 +1,7 @@
 --[[	
 
 	|	NEVERLOSE	UI	|
-	Fuck Synapse X
+	Fuck Synapse X (real)
 		THIS UI MAKE BY CAT_SUS, remake by alriceee on discord		
 		original Neverlose
 		
