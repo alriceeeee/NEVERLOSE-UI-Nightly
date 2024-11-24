@@ -685,7 +685,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 		Image.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Image.BackgroundTransparency = 1.000
 		Image.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		Image.BorderSizePixel = 0)
+		Image.BorderSizePixel = 0
 		Image.Position = UDim2.new(0.0149999997, 0, 0.5, 0)
 		Image.Size = UDim2.new(0.850000024, 0, 0.800000012, 0)
 		Image.SizeConstraint = Enum.SizeConstraint.RelativeYY
