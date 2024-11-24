@@ -1369,7 +1369,9 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 
 				-- Add input detection for the keybind
 				local function HandleInput(input)
-					if Default and input.KeyCode == Default then
+					if not Default then return end
+					
+					if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Default then
 						callback(Default)
 					end
 				end
