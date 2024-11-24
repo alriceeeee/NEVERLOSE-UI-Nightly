@@ -1272,7 +1272,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 			function sectionfunc:AddKeybind(KeybindNameString, Default, callback)
 				callback = callback or function() end
 
-				local function gt(a:Enum.KeyCode)
+				local function gt(a)
 					if not a then
 						return "None"
 					else
@@ -1323,10 +1323,12 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 				LabelText.TextSize = 14.000
 				LabelText.TextWrapped = true
 				LabelText.TextXAlignment = Enum.TextXAlignment.Left
-				LabelText.TextTransparency=.3
+				LabelText.TextTransparency = .3
+
 				BrindText.Name = "BrindText"
 				BrindText.Parent = Keybind
 				BrindText.AnchorPoint = Vector2.new(1, 0.5)
+				
 				BrindText.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
 				BrindText.BackgroundTransparency = 0.500
 				BrindText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1361,7 +1363,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 				ValueText.TextWrapped = true
 
 				local function UpdateText()
-					local size = TextService:GetTextSize(ValueText.Text, ValueText.TextSize, ValueText.Font, Vector2.new(math.huge,math.huge))
+					local size = TextService:GetTextSize(ValueText.Text, ValueText.TextSize, ValueText.Font, Vector2.new(math.huge, math.huge))
 					TweenService:Create(BrindText, TweenInfo.new(0.2), {Size = UDim2.new(0, size.X + 1, 0.550000012, 0)}):Play()
 				end
 
@@ -1378,7 +1380,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 				local Binding = false
 				cretate_button(Keybind).MouseButton1Click:Connect(function()
 					if Binding then return end
-					
+
 					Binding = true
 					local targetloadded = nil
 
@@ -1402,7 +1404,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 
 					TweenService:Create(LabelText, TweenInfo.new(0.3), {TextTransparency = 0.3}):Play()
 					Binding = false
-					
+
 					if hook then
 						hook:Disconnect()
 					end
