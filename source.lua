@@ -185,11 +185,21 @@ function NEVERLOSE:Theme(name)
 end
 
 function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
-	-- Check if there's an existing window and destroy it
+	-- If there's an existing window, destroy it first
 	if NEVERLOSE._ActiveWindow then
-		NEVERLOSE._ActiveWindow:Destroy()
+		pcall(function()
+			NEVERLOSE._ActiveWindow:Destroy()
+		end)
+		NEVERLOSE._ActiveWindow = nil
 	end
 	
+	-- Clean up any existing UI elements in CoreGui
+	for _, gui in pairs(CoreGui:GetChildren()) do
+		if gui.Name == "NEVERLOSE_UI" then
+			gui:Destroy()
+		end
+	end
+
 	local WindowFunctinos={}
 	local ToggleUI=false
 	local ooldsize=UICustomSize or UDim2.new(0.200000003, 210, 0.200000003, 175)
@@ -2389,7 +2399,7 @@ function NEVERLOSE:ReloadUI()
 		}
 		
 		-- Recreate window with same properties
-		NEVERLOSE:AddWindow(properties.NameScriptHub, properties.Text, properties.Size)
+		self:AddWindow(properties.NameScriptHub, properties.Text, properties.Size)
 	end
 end
 
