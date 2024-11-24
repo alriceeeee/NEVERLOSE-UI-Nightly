@@ -1245,12 +1245,15 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 
 			end
 
-			function sectionfunc:AddKeybind(KeybindNameString, Default, callback)
-				callback = callback or function() end
+			function sectionfunc:AddKeybind(KeybindNameString,Default,callback)
+				callback=callback or function()
+
+				end
 
 				local function gt(a:Enum.KeyCode)
 					if not a then
 						return "None"
+
 					else
 						return a.Name
 					end
@@ -1337,61 +1340,40 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 				ValueText.TextWrapped = true
 
 				local function UpdateText()
-					local size = TextService:GetTextSize(ValueText.Text, ValueText.TextSize, ValueText.Font, Vector2.new(math.huge,math.huge))
-					TweenService:Create(BrindText, TweenInfo.new(0.2), {Size = UDim2.new(0, size.X + 1, 0.550000012, 0)}):Play()
-				end
+					local size = TextService:GetTextSize(ValueText.Text,ValueText.TextSize,ValueText.Font,Vector2.new(math.huge,math.huge))
 
-				-- Add input detection for the keybind
-				local function HandleInput(input)
-					if Default and input.KeyCode == Default then
-						callback(Default)
-					end
+					TweenService:Create(BrindText,TweenInfo.new(0.2),{Size = UDim2.new(0, size.X + 1, 0.550000012, 0)}):Play()
 				end
-
-				-- Connect the input handler
-				InputService.InputBegan:Connect(HandleInput)
 
 				local Binding = false
 				cretate_button(Keybind).MouseButton1Click:Connect(function()
-					if Binding then return end
-					
-					Binding = true
+					if Binding then
+						return
+					end
+					Binding =  true
+
 					local targetloadded = nil
 
-					local hook = InputService.InputBegan:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.Keyboard then
-							if input.KeyCode ~= Enum.KeyCode.Unknown and 
-							   input.KeyCode ~= Enum.KeyCode.Escape then
-								targetloadded = input.KeyCode
-							elseif input.KeyCode == Enum.KeyCode.Escape then
-								targetloadded = nil
-							end
+					local hook = InputService.InputBegan:Connect(function(is)
+						if is.KeyCode ~= Enum.KeyCode.Unknown then
+							targetloadded = is.KeyCode
 						end
 					end)
-
-					TweenService:Create(LabelText, TweenInfo.new(0.3), {TextTransparency = 0}):Play()
+					TweenService:Create(LabelText,TweenInfo.new(0.3),{TextTransparency=0}):Play()
 					ValueText.Text = "..."
-					repeat 
-						task.wait() 
-						UpdateText() 
-					until targetloadded ~= nil or not Binding
-
-					TweenService:Create(LabelText, TweenInfo.new(0.3), {TextTransparency = 0.3}):Play()
-					Binding = false
-					
+					repeat task.wait() UpdateText() until targetloadded or not Binding
+					TweenService:Create(LabelText,TweenInfo.new(0.3),{TextTransparency=0.3}):Play()
+					Binding =false
 					if hook then
 						hook:Disconnect()
 					end
-
 					if targetloadded then
 						ValueText.Text = gt(targetloadded)
 						Default = targetloadded
-						UpdateText()
+						UpdateText() 
 						callback(targetloadded)
-					else
-						ValueText.Text = gt(Default)
-						UpdateText()
 					end
+					return
 				end)
 
 				UpdateText()
@@ -2432,41 +2414,6 @@ function NEVERLOSE:ReloadUI()
 		-- Recreate window with same properties
 		self:AddWindow(properties.NameScriptHub, properties.Text, properties.Size)
 	end
-end
-
-function NEVERLOSE:Notify(Title,Description,Time)
-    Time = Time or 5 -- Default to 5 seconds if no time specified
-    
-    local Notification = Instance.new("Frame")
-    local UICorner = Instance.new("UICorner")
-    local UIStroke = Instance.new("UIStroke")
-    local Title_2 = Instance.new("TextLabel")
-    local Description_2 = Instance.new("TextLabel")
-
-    Notification.Name = "Notification"
-    Notification.Parent = NotificationHold
-    Notification.BackgroundColor3 = NEVERLOSE.Themes.SectionColor
-    Notification.BackgroundTransparency = 0.200
-    Notification.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Notification.BorderSizePixel = 0
-    Notification.Position = UDim2.new(1, 0, 0.781791151, 0)
-    Notification.Size = UDim2.new(1, 0, 0.150000006, 0)
-    Notification.ZIndex = 100
-
-    // ... rest of notification UI creation ...
-
-    -- Animate in
-    TweenService:Create(Notification,TweenInfo.new(0.5),{Position = UDim2.new(0,0,0,0)}):Play()
-    
-    -- Set up auto-removal timer
-    task.spawn(function()
-        task.wait(Time)
-        -- Animate out
-        local tween = TweenService:Create(Notification,TweenInfo.new(0.5),{Position = UDim2.new(1,0,0,0)})
-        tween:Play()
-        tween.Completed:Wait()
-        Notification:Destroy()
-    end)
 end
 
 return NEVERLOSE
