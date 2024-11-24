@@ -2239,7 +2239,7 @@ function NEVERLOSE:Notification()
 	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 	UIListLayout.Padding = UDim.new(0, 4)
-	function Notification_:Notify(Type,Head,Body,countdown)
+	function Notification_:Notify(Type, Head, Body, countdown)
 		if (#MainFrame:GetChildren()) > Notification_.MaxNotifications then
 			return false
 		end
@@ -2387,11 +2387,9 @@ function NEVERLOSE:Notification()
 			CloseButton.MouseButton1Click:Connect(end_vu)
 
 			if countdown then
-
 				pcall(function()
 					task.wait(1.3)
-					local tween = TweenService:Create(Countdown,TweenInfo.new(tonumber(countdown) or 3,Enum.EasingStyle.Linear),{Size=UDim2.new(1,0,0.1,0)
-					})
+					local tween = TweenService:Create(Countdown,TweenInfo.new(tonumber(countdown) or 3,Enum.EasingStyle.Linear),{Size=UDim2.new(1,0,0.1,0)})
 
 					tween:Play()
 
@@ -2432,6 +2430,41 @@ function NEVERLOSE:ReloadUI()
 		-- Recreate window with same properties
 		self:AddWindow(properties.NameScriptHub, properties.Text, properties.Size)
 	end
+end
+
+function NEVERLOSE:Notify(Title,Description,Time)
+    Time = Time or 5 -- Default to 5 seconds if no time specified
+    
+    local Notification = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
+    local UIStroke = Instance.new("UIStroke")
+    local Title_2 = Instance.new("TextLabel")
+    local Description_2 = Instance.new("TextLabel")
+
+    Notification.Name = "Notification"
+    Notification.Parent = NotificationHold
+    Notification.BackgroundColor3 = NEVERLOSE.Themes.SectionColor
+    Notification.BackgroundTransparency = 0.200
+    Notification.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Notification.BorderSizePixel = 0
+    Notification.Position = UDim2.new(1, 0, 0.781791151, 0)
+    Notification.Size = UDim2.new(1, 0, 0.150000006, 0)
+    Notification.ZIndex = 100
+
+    // ... rest of notification UI creation ...
+
+    -- Animate in
+    TweenService:Create(Notification,TweenInfo.new(0.5),{Position = UDim2.new(0,0,0,0)}):Play()
+    
+    -- Set up auto-removal timer
+    task.spawn(function()
+        task.wait(Time)
+        -- Animate out
+        local tween = TweenService:Create(Notification,TweenInfo.new(0.5),{Position = UDim2.new(1,0,0,0)})
+        tween:Play()
+        tween.Completed:Wait()
+        Notification:Destroy()
+    end)
 end
 
 return NEVERLOSE
