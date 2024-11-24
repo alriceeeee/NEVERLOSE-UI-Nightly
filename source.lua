@@ -128,7 +128,8 @@ local NEVERLOSE = {
 	},
 	_Version="10.C",
 	_Name="NEVERLOSE",
-	_ActiveWindow = nil -- Add this to track active window
+	_ActiveWindow = nil,
+	_ActiveGUI = nil
 }
 
 print(NEVERLOSE._Name..":",NEVERLOSE._Version..':',[[https://neverlose.cc/]],": UI BY CAT_SUS, remake by alriceee on discord","__ui")
@@ -185,12 +186,20 @@ function NEVERLOSE:Theme(name)
 end
 
 function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
-	-- If there's an existing window, destroy it first
-	if NEVERLOSE._ActiveWindow then
+	-- Clean up existing UI elements
+	if self._ActiveGUI then
 		pcall(function()
-			NEVERLOSE._ActiveWindow:Destroy()
+			self._ActiveGUI:Destroy()
 		end)
-		NEVERLOSE._ActiveWindow = nil
+		self._ActiveGUI = nil
+	end
+	
+	-- Clean up existing window
+	if self._ActiveWindow then
+		pcall(function()
+			self._ActiveWindow:Destroy()
+		end)
+		self._ActiveWindow = nil
 	end
 	
 	-- Clean up any existing UI elements in CoreGui
@@ -206,6 +215,10 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 	local Tabs={}
 
 	local ScreenGui = Instance.new("ScreenGui")
+	ScreenGui.Name = "NEVERLOSE_UI"
+	-- Store reference to active GUI
+	self._ActiveGUI = ScreenGui
+	
 	local Frame = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
 	local Frame_2 = Instance.new("Frame")
@@ -1945,7 +1958,7 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 	end)
 
 	-- Store reference to current window
-	NEVERLOSE._ActiveWindow = ScreenGui
+	self._ActiveWindow = ScreenGui
 
 	return WindowFunctinos
 end
@@ -2390,8 +2403,8 @@ end)
 
 -- Add reload function
 function NEVERLOSE:ReloadUI()
-	if NEVERLOSE._ActiveWindow then
-		local oldWindow = NEVERLOSE._ActiveWindow
+	if self._ActiveWindow then
+		local oldWindow = self._ActiveWindow
 		local properties = {
 			NameScriptHub = oldWindow:FindFirstChild("HeadName") and oldWindow.HeadName.Text,
 			Text = oldWindow:FindFirstChild("headd2text") and oldWindow.headd2text.Text,
