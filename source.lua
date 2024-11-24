@@ -129,7 +129,31 @@ local NEVERLOSE = {
 	_Version="10.C",
 	_Name="NEVERLOSE",
 	_ActiveWindow = nil,
-	_ActiveGUI = nil
+	_ActiveGUI = nil,
+	
+	-- Add Destroy method
+	Destroy = function(self)
+		if self._ActiveWindow then
+			pcall(function()
+				self._ActiveWindow:Destroy()
+			end)
+			self._ActiveWindow = nil
+		end
+		
+		if self._ActiveGUI then
+			pcall(function()
+				self._ActiveGUI:Destroy()
+			end)
+			self._ActiveGUI = nil
+		end
+		
+		-- Clean up any existing UI elements in CoreGui
+		for _, gui in pairs(game:GetService("CoreGui"):GetChildren()) do
+			if gui.Name == "NEVERLOSE_UI" then
+				gui:Destroy()
+			end
+		end
+	end
 }
 
 print(NEVERLOSE._Name..":",NEVERLOSE._Version..':',[[https://neverlose.cc/]],": UI BY CAT_SUS, remake by alriceee on discord","__ui")
@@ -1939,7 +1963,9 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 	end
 
 	function WindowFunctinos:Delete()
-		return ScreenGui:Destroy()
+		if NEVERLOSE then
+			NEVERLOSE:Destroy()
+		end
 	end
 
 	local dragToggle = nil
