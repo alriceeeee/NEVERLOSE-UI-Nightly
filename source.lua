@@ -2283,6 +2283,221 @@ function NEVERLOSE:Notification()
 
 		local iconId = typeicon[tostring(Type or "error"):lower()]
 
+		function sectionfunc:AddColorPicker(ColorPickerName, DefaultColor, callback)
+			callback = callback or function() end
+			DefaultColor = DefaultColor or Color3.fromRGB(255, 255, 255)
+		
+			local ColorPicker = Instance.new("Frame")
+			local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+			local UICorner = Instance.new("UICorner")
+			local LabelText = Instance.new("TextLabel")
+			local ColorDisplay = Instance.new("Frame")
+			local UICorner_2 = Instance.new("UICorner")
+			local UIStroke = Instance.new("UIStroke")
+		
+			ColorPicker.Name = "ColorPicker"
+			ColorPicker.Parent = Section
+			ColorPicker.BackgroundColor3 = NEVERLOSE.Themes.ButtonBlackgroundColor
+			ColorPicker.BackgroundTransparency = 0.200
+			ColorPicker.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			ColorPicker.BorderSizePixel = 0
+			ColorPicker.Size = UDim2.new(0.980000019, 0, 0.0240000002, 0)
+			ColorPicker.ZIndex = 4
+		
+			UIAspectRatioConstraint.Parent = ColorPicker
+			UIAspectRatioConstraint.AspectRatio = 8.000
+			UIAspectRatioConstraint.AspectType = Enum.AspectType.ScaleWithParentSize
+		
+			UICorner.CornerRadius = UDim.new(0, 4)
+			UICorner.Parent = ColorPicker
+		
+			LabelText.Name = "LabelText"
+			LabelText.Parent = ColorPicker
+			LabelText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			LabelText.BackgroundTransparency = 1.000
+			LabelText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			LabelText.BorderSizePixel = 0
+			LabelText.Position = UDim2.new(0.0199999996, 0, 0, 0)
+			LabelText.Size = UDim2.new(0.400000006, 0, 1, 0)
+			LabelText.ZIndex = 5
+			LabelText.Font = Enum.Font.SourceSansBold
+			LabelText.Text = ColorPickerName
+			LabelText.TextColor3 = Color3.fromRGB(255, 255, 255)
+			LabelText.TextScaled = true
+			LabelText.TextSize = 14.000
+			LabelText.TextWrapped = true
+			LabelText.TextXAlignment = Enum.TextXAlignment.Left
+		
+			ColorDisplay.Name = "ColorDisplay"
+			ColorDisplay.Parent = ColorPicker
+			ColorDisplay.AnchorPoint = Vector2.new(1, 0.5)
+			ColorDisplay.BackgroundColor3 = DefaultColor
+			ColorDisplay.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			ColorDisplay.BorderSizePixel = 0
+			ColorDisplay.Position = UDim2.new(0.980000019, 0, 0.5, 0)
+			ColorDisplay.Size = UDim2.new(0.150000006, 0, 0.800000012, 0)
+			ColorDisplay.ZIndex = 5
+		
+			UICorner_2.CornerRadius = UDim.new(0, 4)
+			UICorner_2.Parent = ColorDisplay
+		
+			UIStroke.Color = NEVERLOSE.Themes.StrokeColor
+			UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			UIStroke.Parent = ColorPicker
+		
+			local function CreateColorPicker()
+				local ColorPickerUI = Instance.new("Frame")
+				local UICorner = Instance.new("UICorner")
+				local Palette = Instance.new("ImageButton")
+				local UICorner_2 = Instance.new("UICorner")
+				local Selector = Instance.new("ImageLabel")
+				local UICorner_3 = Instance.new("UICorner")
+				local ColorSlider = Instance.new("ImageButton")
+				local UICorner_4 = Instance.new("UICorner")
+				local Slider = Instance.new("ImageLabel")
+				local UICorner_5 = Instance.new("UICorner")
+		
+				ColorPickerUI.Name = "ColorPickerUI"
+				ColorPickerUI.Parent = ColorPicker
+				ColorPickerUI.BackgroundColor3 = NEVERLOSE.Themes.ButtonBlackgroundColor
+				ColorPickerUI.Position = UDim2.new(1.10000002, 0, 0, 0)
+				ColorPickerUI.Size = UDim2.new(0, 200, 0, 220)
+				ColorPickerUI.ZIndex = 10
+				ColorPickerUI.Visible = false
+		
+				UICorner.CornerRadius = UDim.new(0, 6)
+				UICorner.Parent = ColorPickerUI
+		
+				Palette.Name = "Palette"
+				Palette.Parent = ColorPickerUI
+				Palette.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Palette.Position = UDim2.new(0.0500000007, 0, 0.0500000007, 0)
+				Palette.Size = UDim2.new(0.899999976, 0, 0.800000012, 0)
+				Palette.ZIndex = 11
+				Palette.Image = "rbxassetid://698052001"
+				Palette.ScaleType = Enum.ScaleType.Stretch
+		
+				UICorner_2.CornerRadius = UDim.new(0, 4)
+				UICorner_2.Parent = Palette
+		
+				Selector.Name = "Selector"
+				Selector.Parent = Palette
+				Selector.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Selector.Size = UDim2.new(0, 10, 0, 10)
+				Selector.ZIndex = 12
+				Selector.Image = "rbxassetid://2851926732"
+				Selector.ImageColor3 = Color3.fromRGB(0, 0, 0)
+				Selector.ScaleType = Enum.ScaleType.Fit
+		
+				UICorner_3.CornerRadius = UDim.new(1, 0)
+				UICorner_3.Parent = Selector
+		
+				ColorSlider.Name = "ColorSlider"
+				ColorSlider.Parent = ColorPickerUI
+				ColorSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ColorSlider.Position = UDim2.new(0.0500000007, 0, 0.875, 0)
+				ColorSlider.Size = UDim2.new(0.899999976, 0, 0.075000003, 0)
+				ColorSlider.ZIndex = 11
+				ColorSlider.Image = "rbxassetid://3641079629"
+		
+				UICorner_4.CornerRadius = UDim.new(0, 4)
+				UICorner_4.Parent = ColorSlider
+		
+				Slider.Name = "Slider"
+				Slider.Parent = ColorSlider
+				Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Slider.Size = UDim2.new(0.0500000007, 0, 1, 0)
+				Slider.ZIndex = 12
+				Slider.Image = "rbxassetid://2851926732"
+				Slider.ImageColor3 = Color3.fromRGB(0, 0, 0)
+				Slider.ScaleType = Enum.ScaleType.Fit
+		
+				UICorner_5.CornerRadius = UDim.new(1, 0)
+				UICorner_5.Parent = Slider
+		
+				return ColorPickerUI, Palette, ColorSlider, Selector, Slider
+			end
+		
+			local ColorPickerUI, Palette, ColorSlider, Selector, Slider = CreateColorPicker()
+			local pickerOpen = false
+			local mouseDown = false
+			local sliderDown = false
+		
+			local function UpdateColor(hue, sat, val)
+				local color = Color3.fromHSV(hue, sat, val)
+				ColorDisplay.BackgroundColor3 = color
+				callback(color)
+			end
+		
+			ColorPicker.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					pickerOpen = not pickerOpen
+					ColorPickerUI.Visible = pickerOpen
+				end
+			end)
+		
+			Palette.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					mouseDown = true
+				end
+			end)
+		
+			ColorSlider.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					sliderDown = true
+				end
+			end)
+		
+			game:GetService("UserInputService").InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					mouseDown = false
+					sliderDown = false
+				end
+			end)
+		
+			game:GetService("RunService").RenderStepped:Connect(function()
+				if mouseDown then
+					local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+					local relativeX = math.clamp((mouse.X - Palette.AbsolutePosition.X) / Palette.AbsoluteSize.X, 0, 1)
+					local relativeY = math.clamp((mouse.Y - Palette.AbsolutePosition.Y) / Palette.AbsoluteSize.Y, 0, 1)
+					
+					Selector.Position = UDim2.new(relativeX, -5, relativeY, -5)
+					
+					local hue = Slider.Position.X.Scale
+					local sat = relativeX
+					local val = 1 - relativeY
+					
+					UpdateColor(hue, sat, val)
+				end
+				
+				if sliderDown then
+					local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+					local relativeX = math.clamp((mouse.X - ColorSlider.AbsolutePosition.X) / ColorSlider.AbsoluteSize.X, 0, 1)
+					
+					Slider.Position = UDim2.new(relativeX, -2, 0, 0)
+					
+					local hue = relativeX
+					local sat = Selector.Position.X.Scale
+					local val = 1 - Selector.Position.Y.Scale
+					
+					UpdateColor(hue, sat, val)
+				end
+			end)
+		
+			local colorPickerFuncs = {}
+		
+			function colorPickerFuncs:Set(color)
+				local h, s, v = color:ToHSV()
+				UpdateColor(h, s, v)
+				Selector.Position = UDim2.new(s, -5, 1 - v, -5)
+				Slider.Position = UDim2.new(h, -2, 0, 0)
+			end
+		
+			update_section_size()
+			return colorPickerFuncs
+		end
+		
+
 		local Notify = Instance.new("Frame")
 		local UICorner = Instance.new("UICorner")
 		local UIStroke = Instance.new("UIStroke")
