@@ -64,13 +64,6 @@ Example:AddToggle('Toggle',false,function(val)
 	print("Toggle",val)
 end)
 
-Example:AddColorPicker('Color Picker', Color3.fromRGB(255, 0, 0), function(color)
-    print('color picker', color)
-    -- You can use the color value here
-    -- Example: updating UI element colors
-    -- SomeElement.BackgroundColor3 = color
-end)
-
 Example:AddKeybind('Keybind',Enum.KeyCode.X,function(val)
 	print('keybind',val)
 end)
