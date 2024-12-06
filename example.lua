@@ -1,41 +1,7 @@
--- Create config table to store the NEVERLOSE instance
-local Config = {
-    NEVERLOSE = nil
-}
+local NEVERLOSE = loadstring(game:HttpGet("https://raw.githubusercontent.com/alriceeeee/NEVERLOSE-UI-Nightly/main/source.lua"))()
 
-local function LoadLibrary()
-    local source = game:HttpGet("https://raw.githubusercontent.com/alriceeeee/NEVERLOSE-UI-Nightly/main/source.lua")
-    if not source then
-        warn("Failed to fetch library source")
-        return nil
-    end
-    
-    local fn, loadError = loadstring(source)
-    if not fn then
-        warn("Failed to compile library:", loadError)
-        return nil
-    end
-    
-    return fn()
-end
+NEVERLOSE:Theme("dark") -- [ dark , nightly , original ]
 
--- Initialize NEVERLOSE only once
-if not Config.NEVERLOSE then
-    local success, lib = pcall(LoadLibrary)
-    if not success or not lib then
-        warn("Failed to load NEVERLOSE UI Library:", lib)
-        return
-    end
-    Config.NEVERLOSE = lib
-end
-
-local NEVERLOSE = Config.NEVERLOSE
-
--- Change Theme --
-NEVERLOSE:Theme("light") -- [ dark , nightly , original, light]
-------------------
-
--- Check if window already exists and destroy it
 if NEVERLOSE._ActiveWindow then
     NEVERLOSE._ActiveWindow:Destroy()
 end
