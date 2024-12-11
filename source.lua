@@ -1959,6 +1959,203 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 				TweenService:Create(UIStroke,TweenInfo.new(1),{Transparency=0}):Play()
 			end
 
+			function sectionfunc:AddColorPicker(Text, default, callback)
+				default = default or Color3.fromRGB(255, 255, 255)
+				callback = callback or function() end
+
+				local ColorPicker = Instance.new("Frame")
+				local UICorner = Instance.new("UICorner")
+				local Title = Instance.new("TextLabel")
+				local ColorDisplay = Instance.new("Frame")
+				local UICorner_2 = Instance.new("UICorner")
+				local UIStroke = Instance.new("UIStroke")
+				local ColorPickerFrame = Instance.new("Frame")
+				local UICorner_3 = Instance.new("UICorner")
+				local ColorWheel = Instance.new("ImageButton")
+				local UICorner_4 = Instance.new("UICorner")
+				local UIStroke_2 = Instance.new("UIStroke")
+				local Darkness = Instance.new("ImageButton")
+				local UIGradient = Instance.new("UIGradient")
+				local UICorner_5 = Instance.new("UICorner")
+				local UIStroke_3 = Instance.new("UIStroke")
+				local ColorPreview = Instance.new("Frame")
+				local UICorner_6 = Instance.new("UICorner")
+
+				ColorPicker.Name = "ColorPicker"
+				ColorPicker.Parent = Section
+				ColorPicker.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ColorPicker.BackgroundTransparency = 1
+				ColorPicker.Size = UDim2.new(0.899999976, 0, 0.0399999991, 0)
+				ColorPicker.ZIndex = 5
+
+				UICorner.CornerRadius = UDim.new(0, 3)
+				UICorner.Parent = ColorPicker
+
+				Title.Name = "Title"
+				Title.Parent = ColorPicker
+				Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Title.BackgroundTransparency = 1
+				Title.Position = UDim2.new(0, 5, 0, 0)
+				Title.Size = UDim2.new(0.75, 0, 1, 0)
+				Title.ZIndex = 5
+				Title.Font = Enum.Font.SourceSansSemibold
+				Title.Text = Text
+				Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Title.TextSize = 14
+				Title.TextXAlignment = Enum.TextXAlignment.Left
+
+				ColorDisplay.Name = "ColorDisplay"
+				ColorDisplay.Parent = ColorPicker
+				ColorDisplay.AnchorPoint = Vector2.new(1, 0.5)
+				ColorDisplay.BackgroundColor3 = default
+				ColorDisplay.Position = UDim2.new(1, -5, 0.5, 0)
+				ColorDisplay.Size = UDim2.new(0.15, 0, 0.8, 0)
+				ColorDisplay.ZIndex = 5
+
+				UICorner_2.CornerRadius = UDim.new(0, 3)
+				UICorner_2.Parent = ColorDisplay
+
+				UIStroke.Color = NEVERLOSE.Themes.StrokeColor
+				UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				UIStroke.Parent = ColorDisplay
+
+				ColorPickerFrame.Name = "ColorPickerFrame"
+				ColorPickerFrame.Parent = ColorPicker
+				ColorPickerFrame.BackgroundColor3 = NEVERLOSE.Themes.SectionColor
+				ColorPickerFrame.Position = UDim2.new(1.1, 0, 0, 0)
+				ColorPickerFrame.Size = UDim2.new(0, 200, 0, 200)
+				ColorPickerFrame.ZIndex = 15
+				ColorPickerFrame.Visible = false
+
+				UICorner_3.CornerRadius = UDim.new(0, 3)
+				UICorner_3.Parent = ColorPickerFrame
+
+				ColorWheel.Name = "ColorWheel"
+				ColorWheel.Parent = ColorPickerFrame
+				ColorWheel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ColorWheel.BackgroundTransparency = 1
+				ColorWheel.Position = UDim2.new(0.0500000007, 0, 0.0500000007, 0)
+				ColorWheel.Size = UDim2.new(0.600000024, 0, 0.600000024, 0)
+				ColorWheel.ZIndex = 16
+				ColorWheel.Image = "rbxassetid://6020299385"
+
+				UICorner_4.CornerRadius = UDim.new(1, 0)
+				UICorner_4.Parent = ColorWheel
+
+				Darkness.Name = "Darkness"
+				Darkness.Parent = ColorPickerFrame
+				Darkness.AnchorPoint = Vector2.new(1, 0)
+				Darkness.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Darkness.Position = UDim2.new(0.949999988, 0, 0.0500000007, 0)
+				Darkness.Size = UDim2.new(0.150000006, 0, 0.600000024, 0)
+				Darkness.ZIndex = 16
+				Darkness.Image = "rbxassetid://359311684"
+
+				UIGradient.Color = ColorSequence.new{
+					ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
+					ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 0, 0))
+				}
+				UIGradient.Rotation = 90
+				UIGradient.Parent = Darkness
+
+				UICorner_5.CornerRadius = UDim.new(0, 3)
+				UICorner_5.Parent = Darkness
+
+				ColorPreview.Name = "ColorPreview"
+				ColorPreview.Parent = ColorPickerFrame
+				ColorPreview.BackgroundColor3 = default
+				ColorPreview.Position = UDim2.new(0.0500000007, 0, 0.699999988, 0)
+				ColorPreview.Size = UDim2.new(0.899999976, 0, 0.25, 0)
+				ColorPreview.ZIndex = 16
+
+				UICorner_6.CornerRadius = UDim.new(0, 3)
+				UICorner_6.Parent = ColorPreview
+
+				local function updateColor()
+					local hue, saturation = 0, 0
+					local function updateHueSaturation(input)
+						local center = ColorWheel.AbsolutePosition + ColorWheel.AbsoluteSize/2
+						local radius = ColorWheel.AbsoluteSize.X/2
+						local delta = Vector2.new(input.Position.X - center.X, input.Position.Y - center.Y)
+						local distance = delta.Magnitude
+						
+						if distance <= radius then
+							hue = math.atan2(delta.Y, delta.X)
+							saturation = math.clamp(distance/radius, 0, 1)
+							return true
+						end
+						return false
+					end
+
+					local darkness = 0
+					local function updateDarkness(input)
+						local relative = input.Position.Y - Darkness.AbsolutePosition.Y
+						darkness = math.clamp(relative/Darkness.AbsoluteSize.Y, 0, 1)
+						return true
+					end
+
+					local function updateFinal()
+						local color = Color3.fromHSV(hue/(math.pi*2), saturation, 1-darkness)
+						ColorDisplay.BackgroundColor3 = color
+						ColorPreview.BackgroundColor3 = color
+						callback(color)
+					end
+
+					ColorWheel.InputBegan:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							if updateHueSaturation(input) then
+								updateFinal()
+							end
+						end
+					end)
+
+					ColorWheel.InputChanged:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseMovement then
+							if updateHueSaturation(input) then
+								updateFinal()
+							end
+						end
+					end)
+
+					Darkness.InputBegan:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							if updateDarkness(input) then
+								updateFinal()
+							end
+						end
+					end)
+
+					Darkness.InputChanged:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseMovement then
+							if updateDarkness(input) then
+								updateFinal()
+							end
+						end
+					end)
+				end
+
+				local colorPickerOpen = false
+				ColorDisplay.InputBegan:Connect(function(input)
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						colorPickerOpen = not colorPickerOpen
+						ColorPickerFrame.Visible = colorPickerOpen
+					end
+				end)
+
+				updateColor()
+				update_section_size()
+
+				local funcs = {}
+				
+				function funcs:Set(color)
+					ColorDisplay.BackgroundColor3 = color
+					ColorPreview.BackgroundColor3 = color
+					callback(color)
+				end
+
+				return funcs
+			end
+
 			return sectionfunc
 		end
 
