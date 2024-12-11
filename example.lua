@@ -75,5 +75,3 @@ rejoinGame()
 
 print("Attempting to rejoin the current game...")
 end)
-
--- The system clock is now visible in the bottom-right corner of the UI
