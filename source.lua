@@ -1985,12 +1985,13 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 				ColorPicker.Parent = Section
 				ColorPicker.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 				ColorPicker.BackgroundTransparency = 1
-				ColorPicker.Size = UDim2.new(0.899999976, 0, 0.0399999991, 0)
+				ColorPicker.Size = UDim2.new(0.899999976, 0, 0.0799999991, 0) -- Made taller
 				ColorPicker.ZIndex = 5
 
 				UICorner.CornerRadius = UDim.new(0, 3)
 				UICorner.Parent = ColorPicker
 
+				
 				Title.Name = "Title"
 				Title.Parent = ColorPicker
 				Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2073,7 +2074,11 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 
 				local function updateColor()
 					local hue, saturation = 0, 0
+					local isHolding = false
+
 					local function updateHueSaturation(input)
+						if not isHolding then return false end
+						
 						local center = ColorWheel.AbsolutePosition + ColorWheel.AbsoluteSize/2
 						local radius = ColorWheel.AbsoluteSize.X/2
 						local delta = Vector2.new(input.Position.X - center.X, input.Position.Y - center.Y)
@@ -2088,7 +2093,11 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 					end
 
 					local darkness = 0
+					local isDarknessHolding = false
+
 					local function updateDarkness(input)
+						if not isDarknessHolding then return false end
+						
 						local relative = input.Position.Y - Darkness.AbsolutePosition.Y
 						darkness = math.clamp(relative/Darkness.AbsoluteSize.Y, 0, 1)
 						return true
@@ -2103,9 +2112,16 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 
 					ColorWheel.InputBegan:Connect(function(input)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							isHolding = true
 							if updateHueSaturation(input) then
 								updateFinal()
 							end
+						end
+					end)
+
+					ColorWheel.InputEnded:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							isHolding = false
 						end
 					end)
 
@@ -2119,9 +2135,16 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 
 					Darkness.InputBegan:Connect(function(input)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							isDarknessHolding = true
 							if updateDarkness(input) then
 								updateFinal()
 							end
+						end
+					end)
+
+					Darkness.InputEnded:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseButton1 then
+							isDarknessHolding = false
 						end
 					end)
 

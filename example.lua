@@ -75,3 +75,7 @@ rejoinGame()
 
 print("Attempting to rejoin the current game...")
 end)
+
+local colorpicker = SectionTest:AddColorPicker("UI Color", Color3.fromRGB(255, 140, 0), function(color)
+    print("Selected color:", color)
+end)
