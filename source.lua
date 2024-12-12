@@ -2109,49 +2109,41 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 						callback(color)
 					end
 
-					ColorWheel.InputBegan:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
-							isHolding = true
-							if updateHueSaturation(input) then
-								updateFinal()
+					ColorWheel.MouseButton1Down:Connect(function()
+						isHolding = true
+					end)
+
+					ColorWheel.MouseButton1Up:Connect(function()
+						isHolding = false
+					end)
+
+					Darkness.MouseButton1Down:Connect(function()
+						isDarknessHolding = true
+					end)
+
+					Darkness.MouseButton1Up:Connect(function()
+						isDarknessHolding = false
+					end)
+
+					InputService.InputChanged:Connect(function(input)
+						if input.UserInputType == Enum.UserInputType.MouseMovement then
+							if isHolding then
+								if updateHueSaturation(input) then
+									updateFinal()
+								end
+							end
+							if isDarknessHolding then
+								if updateDarkness(input) then
+									updateFinal()
+								end
 							end
 						end
 					end)
 
-					ColorWheel.InputEnded:Connect(function(input)
+					game:GetService("UserInputService").InputEnded:Connect(function(input)
 						if input.UserInputType == Enum.UserInputType.MouseButton1 then
 							isHolding = false
-						end
-					end)
-
-					ColorWheel.InputChanged:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseMovement then
-							if updateHueSaturation(input) then
-								updateFinal()
-							end
-						end
-					end)
-
-					Darkness.InputBegan:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
-							isDarknessHolding = true
-							if updateDarkness(input) then
-								updateFinal()
-							end
-						end
-					end)
-
-					Darkness.InputEnded:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseButton1 then
 							isDarknessHolding = false
-						end
-					end)
-
-					Darkness.InputChanged:Connect(function(input)
-						if input.UserInputType == Enum.UserInputType.MouseMovement then
-							if updateDarkness(input) then
-								updateFinal()
-							end
 						end
 					end)
 				end
