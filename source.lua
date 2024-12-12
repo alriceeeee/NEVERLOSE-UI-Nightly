@@ -2079,15 +2079,15 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 					local darkness = 0
 
 					local function updateHueSaturation(input)
-						if not isHolding then return end
-						
 						local center = ColorWheel.AbsolutePosition + ColorWheel.AbsoluteSize/2
 						local radius = ColorWheel.AbsoluteSize.X/2
 						local delta = Vector2.new(input.Position.X - center.X, input.Position.Y - center.Y)
 						local distance = delta.Magnitude
 						
 						if distance <= radius then
-							hue = math.atan2(delta.Y, delta.X)
+							-- Fix for the hue calculation
+							local hueAngle = (math.atan2(delta.Y, delta.X) + math.pi) / (2 * math.pi)
+							hue = hueAngle
 							saturation = math.clamp(distance/radius, 0, 1)
 							return true
 						end
@@ -2095,15 +2095,13 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 					end
 
 					local function updateDarkness(input)
-						if not isDarknessHolding then return end
-						
 						local relative = input.Position.Y - Darkness.AbsolutePosition.Y
 						darkness = math.clamp(relative/Darkness.AbsoluteSize.Y, 0, 1)
 						return true
 					end
 
 					local function updateFinal()
-						local color = Color3.fromHSV(hue/(math.pi*2), saturation, 1-darkness)
+						local color = Color3.fromHSV(hue, saturation, 1-darkness)
 						ColorDisplay.BackgroundColor3 = color
 						ColorPreview.BackgroundColor3 = color
 						callback(color)
