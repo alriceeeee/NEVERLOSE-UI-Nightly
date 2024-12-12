@@ -2085,9 +2085,8 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 						local distance = delta.Magnitude
 						
 						if distance <= radius then
-							-- Fix for the hue calculation
-							local hueAngle = (math.atan2(delta.Y, delta.X) + math.pi) / (2 * math.pi)
-							hue = hueAngle
+							local angle = math.deg(math.atan2(-delta.Y, -delta.X)) + 180
+							hue = angle / 360
 							saturation = math.clamp(distance/radius, 0, 1)
 							return true
 						end
