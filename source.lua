@@ -2075,9 +2075,11 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 				local function updateColor()
 					local hue, saturation = 0, 0
 					local isHolding = false
+					local isDarknessHolding = false
+					local darkness = 0
 
 					local function updateHueSaturation(input)
-						if not isHolding then return false end
+						if not isHolding then return end
 						
 						local center = ColorWheel.AbsolutePosition + ColorWheel.AbsoluteSize/2
 						local radius = ColorWheel.AbsoluteSize.X/2
@@ -2092,11 +2094,8 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 						return false
 					end
 
-					local darkness = 0
-					local isDarknessHolding = false
-
 					local function updateDarkness(input)
-						if not isDarknessHolding then return false end
+						if not isDarknessHolding then return end
 						
 						local relative = input.Position.Y - Darkness.AbsolutePosition.Y
 						darkness = math.clamp(relative/Darkness.AbsoluteSize.Y, 0, 1)
