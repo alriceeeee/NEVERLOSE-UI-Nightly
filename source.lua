@@ -131,7 +131,7 @@ local NEVERLOSE = {
 	_ActiveWindow = nil,
 	_ActiveGUI = nil,
 	
-	-- Add Destroy method
+	-- Destroy method
 	Destroy = function(self)
 		if self._ActiveWindow then
 			pcall(function()
@@ -2085,8 +2085,9 @@ function NEVERLOSE:AddWindow(NameScriptHub,Text,UICustomSize)
 						local distance = delta.Magnitude
 						
 						if distance <= radius then
-							local angle = math.deg(math.atan2(-delta.Y, -delta.X)) + 180
-							hue = angle / 360
+							local angle = math.atan2(delta.Y, delta.X)
+							hue = (angle / (math.pi * 2)) + 0.5
+							if hue < 0 then hue += 1 end
 							saturation = math.clamp(distance/radius, 0, 1)
 							return true
 						end
